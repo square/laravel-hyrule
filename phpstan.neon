@@ -1,0 +1,13 @@
+parameters:
+  level: 7
+  paths:
+    - src
+    - tests
+
+services:
+  - class: Square\Hyrule\PHPStan\ArrayNodeEachDynamicReturnExtension
+    tags:
+      - phpstan.broker.dynamicMethodReturnTypeExtension
+  - class: Square\Hyrule\PHPStan\RuleMagicMethodsReflectionExtension
+    tags:
+      - phpstan.broker.methodsClassReflectionExtension
