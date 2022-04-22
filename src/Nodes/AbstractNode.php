@@ -6,6 +6,7 @@ namespace Square\Hyrule\Nodes;
 
 use Illuminate\Contracts\Validation\Rule;
 use Illuminate\Support\Str;
+use InvalidArgumentException;
 use LogicException;
 use Square\Hyrule\Build\LazyRuleStringify;
 use Square\Hyrule\Path;
@@ -91,12 +92,31 @@ abstract class AbstractNode
     }
 
     /**
+     * @param mixed $path
+     * @param string $argName
+     * @return void
+     */
+    private function assertPathArgument($path, string $argName = 'path'): void
+    {
+        if (!is_string($path) && !$path instanceof PathExp && !$path instanceof self) {
+            throw new InvalidArgumentException(sprintf(
+                'Expected %s to be a string, or an instance of %s or %s',
+                $argName,
+                PathExp::class,
+                __CLASS__,
+            ));
+        }
+    }
+
+    /**
      * @param string|PathExp|AbstractNode $path
      * @param string $value
      * @return $this
      */
-    public function requiredIf(string|PathExp|AbstractNode $path, string $value): self
+    public function requiredIf($path, string $value): self
     {
+        $this->assertPathArgument($path, 'argument #0');
+
         if ($path instanceof PathExp || $path instanceof self) {
             $rule = new LazyRuleStringify('required_if', [$path, $value]);
         } else {
@@ -110,8 +130,10 @@ abstract class AbstractNode
      * @param string|PathExp|AbstractNode $path
      * @return $this
      */
-    public function requiredWithout(string|PathExp|AbstractNode $path): self
+    public function requiredWithout($path): self
     {
+        $this->assertPathArgument($path, 'argument #0');
+
         if ($path instanceof PathExp || $path instanceof self) {
             $rule = new LazyRuleStringify('required_without', [$path]);
         } else {
@@ -125,8 +147,10 @@ abstract class AbstractNode
      * @param string|PathExp|AbstractNode $path
      * @return $this
      */
-    public function requiredWith(string|PathExp|AbstractNode $path): self
+    public function requiredWith($path): self
     {
+        $this->assertPathArgument($path, 'argument #0');
+
         if ($path instanceof PathExp || $path instanceof self) {
             $rule = new LazyRuleStringify('required_with', [$path]);
         } else {
@@ -140,8 +164,13 @@ abstract class AbstractNode
      * @param string|Rule $rule
      * @return $this|AbstractNode|ScalarNode|ObjectNode|ArrayNode
      */
-    public function rule(string|Rule $rule): self
+    public function rule($rule): self
     {
+        if (!is_string($rule) && $rule instanceof Rule) {
+            throw new InvalidArgumentException(sprintf(
+                'Expected argument to be a string, or instance of %s.', Rule::class,
+            ));
+        }
         $this->rules[] = $rule;
         return $this;
     }
@@ -217,7 +246,7 @@ abstract class AbstractNode
      * @param mixed $var
      * @return static
      */
-    public function assignTo(mixed &$var): self
+    public function assignTo(&$var): self
     {
         $var = $this;
         return $this;
