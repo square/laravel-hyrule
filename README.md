@@ -242,7 +242,7 @@ $builder
 
 ### What's up with `->end()`?
 
-Once you understand that `Squareup\Hyrule\Builder` manages a tree of nodes and that the Fields APIs return child nodes,
+Once you understand that `Square\Hyrule\Builder` manages a tree of nodes and that the Fields APIs return child nodes,
 all you have to know is that `->end()` returns the _parent_ of the node, and it is the fluent way of traversing back
 up the tree:
 
