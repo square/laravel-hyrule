@@ -1,5 +1,7 @@
 ## Laravel Hyrule
 
+ <img src="https://github.com/square/laravel-hyrule/actions/workflows/php.yml/badge.svg">
+
 Hyrule provides an object-oriented, fluent API for building validation rules for use w/ Laravel's Validation component. This unlocks patterns that make it easier to define set of rules to enforce complex, nested data structures that is typical in API development.
 
 **Why:**
