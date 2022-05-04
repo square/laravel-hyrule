@@ -42,7 +42,8 @@ class KnownPropertiesOnly implements Rule, ValidatorAwareRule
 
         $unknownProperties = array_diff($keys, $this->allowedProperties);
         foreach ($unknownProperties as $property) {
-            $this->validator->addFailure(sprintf('%s.%s', $attribute, $property), 'unknown_property', [
+            $errorProperty = empty($attribute) ? $property : sprintf('%s.%s', $attribute, $property);
+            $this->validator->addFailure($errorProperty, 'unknown_property', [
                 'property' => $property,
                 'allowed_properties' => $this->allowedProperties,
             ]);
