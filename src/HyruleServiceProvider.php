@@ -11,11 +11,17 @@ use Square\Hyrule\Validator\StrictValidator;
 
 class HyruleServiceProvider extends ServiceProvider
 {
+    /**
+     * @return void
+     */
     public function register()
     {
         $this->extendValidatorFactory(config('hyrule.strict_validator_class'));
     }
 
+    /**
+     * @return void
+     */
     public function boot()
     {
         $this->publishes([

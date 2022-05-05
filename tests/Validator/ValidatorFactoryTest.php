@@ -13,12 +13,12 @@ use Square\Hyrule\Validator\StrictValidator;
 class ValidatorFactoryTest extends TestCase
 {
     /**
-     * @var Application|mixed
+     * @var Application
      */
     protected Application $app;
 
     /**
-     * @var Kernel|mixed
+     * @var Kernel
      */
     private Kernel $kernel;
 
@@ -28,7 +28,7 @@ class ValidatorFactoryTest extends TestCase
         $this->kernel = $this->app->make(Kernel::class);
     }
 
-    public function testCreatedValidatorWithEmptyValue()
+    public function testCreatedValidatorWithEmptyValue(): void
     {
         putenv('STRICT_VALIDATOR_CLASS=') ;
         $this->kernel->bootstrap();
@@ -38,7 +38,7 @@ class ValidatorFactoryTest extends TestCase
         $this->assertEquals(Validator::class, get_class($validator));
     }
 
-    public function testCreatedValidatorWithDefaultConfig()
+    public function testCreatedValidatorWithDefaultConfig(): void
     {
         $defaultConfig = require __DIR__ . '/../../src/config/hyrule.php';
         $this->assertEquals(StrictValidator::class, $defaultConfig['strict_validator_class']);
@@ -50,7 +50,7 @@ class ValidatorFactoryTest extends TestCase
         $this->assertEquals(StrictValidator::class, get_class($validator));
     }
 
-    public function testCreatedValidatorWithCustomValidator()
+    public function testCreatedValidatorWithCustomValidator(): void
     {
         putenv(sprintf('STRICT_VALIDATOR_CLASS=%s', CustomValidator::class));
         $this->kernel->bootstrap();
@@ -60,7 +60,7 @@ class ValidatorFactoryTest extends TestCase
         $this->assertEquals(CustomValidator::class, get_class($validator));
     }
 
-    public function testIncompatibleClassInConfig()
+    public function testIncompatibleClassInConfig(): void
     {
         putenv(sprintf('STRICT_VALIDATOR_CLASS=%s', Kernel::class));
         $this->expectException(RuntimeException::class);
