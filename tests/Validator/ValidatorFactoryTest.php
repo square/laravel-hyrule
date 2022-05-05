@@ -41,8 +41,8 @@ class ValidatorFactoryTest extends TestCase
     public function testCreatedValidatorWithDefaultConfig(): void
     {
         $defaultConfig = require __DIR__ . '/../../src/config/hyrule.php';
-        $this->assertEquals(StrictValidator::class, $defaultConfig['strict_validator_class']);
-        putenv(sprintf('STRICT_VALIDATOR_CLASS=%s', $defaultConfig['strict_validator_class']));
+        $this->assertEquals(StrictValidator::class, $defaultConfig['use_strict_validator_class']);
+        putenv(sprintf('STRICT_VALIDATOR_CLASS=%s', $defaultConfig['use_strict_validator_class']));
         $this->kernel->bootstrap();
         $factory = $this->app->make(Factory::class);
         $this->assertInstanceOf(Factory::class, $factory);
