@@ -16,7 +16,7 @@ class HyruleServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->extendValidatorFactory(config('hyrule.strict_validator_class'));
+        $this->extendValidatorFactory(config('hyrule.use_strict_validator_class'));
     }
 
     /**
@@ -41,7 +41,7 @@ class HyruleServiceProvider extends ServiceProvider
 
         if (!is_a($className, Validator::class, true)) {
             throw new RuntimeException(sprintf(
-                'hyrule.strict_validator_class string value must be class that implements %s. Got %s.',
+                'hyrule.use_strict_validator_class string value must be class that implements %s. Got %s.',
                 Validator::class,
                 $className,
             ));
