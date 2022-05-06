@@ -14,17 +14,35 @@ Defining validation rules in Laravel involves manually building arrays. As busin
 
 ## Installation
 
+
 ```bash
 composer require square/laravel-hyrule
 ```
 
-Next, publish the config:
+### Setup
+
+1.) Register the service provider:
+
+```php
+// config/app.php
+
+return [
+    // ...
+    'providers' => [
+       // ...
+       Square\Hyrule\HyruleServiceProvider::class,
+       // etc.
+     ],
+];
+```
+
+2.) Publish the config:
 
 ```bash
 php artisan vendor:publish --provider="Square\Hyrule\HyruleServiceProvider"
 ```
 
-Although this step is optional, we highly recommend publishing the default config so that you can take advantage of [`StrictValidator`](./docs/strict-validator.md).
+> Using the service provider & the default config will allow your app to use [`StrictValidator`](./docs/strict-validator.md).
 
 
 ## API Basics
@@ -294,7 +312,7 @@ If you are not a fan of this, you can use the [Fields-With API](./docs/fields-wi
 ## Advanced Topics
 
 - [Fields-With API](./docs/fields-with.md)
-- [Apply rules on entire data itself with *`StrictValidator`*](./docs/strict-validator.md)
+- [Apply rules on entire data itself with **`StrictValidator`**](./docs/strict-validator.md)
 - [Reusable builder functions with **`->with(...)`**](./docs/builder-functions-with.md)
 - **Built-in helper builder functions**
     - [**`Hyrule::if(...)`**](./docs/hyrule-if.md)
