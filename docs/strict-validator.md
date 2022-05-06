@@ -1,6 +1,6 @@
 ## `StrictValidator`
 
-Hyrule helps you build robust & secure applications by only allowing fields you explicitly defined via the [Fields API](../README.md#Fields API) or [Fields-With API](./fields-with.md).
+Hyrule helps you build robust & secure applications by only allowing fields you explicitly defined via the [Fields API](../README.md#fields-api) or [Fields-With API](./fields-with.md).
 
 Hyrule enforces this by using the `Square\Hyrule\Validation\Rules\KnownPropertiesOnly` rule which it adds to all `object(...)`  nodes.
 
