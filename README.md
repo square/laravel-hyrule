@@ -18,6 +18,15 @@ Defining validation rules in Laravel involves manually building arrays. As busin
 composer require square/laravel-hyrule
 ```
 
+Next, publish the config:
+
+```bash
+php artisan vendor:publish --provider="Square\Hyrule\HyruleServiceProvider"
+```
+
+Although this step is optional, we highly reecommend you take advantage of [`StrictValidator`](./docs/strict-validator.md).
+
+
 ## API Basics
 
 Initializing a rule-builder and adding your first field:
@@ -133,7 +142,8 @@ $builder
 
 ##### Unknown fields
 
-By default, Hyrule produce rule-sets that validates against fields that weren't explicitly added via the Fields API.
+By default, Hyrule helps you build robust & secure applications by only allowing fields you explicitly defined via the Fields API. This is specifically designed
+to help you be intentional w/ what you expect from your data. For example, this is another mechanism by which your API can further sanitize user input.
 
 If you expect a field to come through, the library would still require you to specify the data-type. But you don't have
 to specify other rules:
@@ -284,6 +294,7 @@ If you are not a fan of this, you can use the [Fields-With API](./docs/fields-wi
 ## Advanced Topics
 
 - [Fields-With API](./docs/fields-with.md)
+- [Apply rules on entire data itself with *`StrictValidator`*](./docs/strict-validator.md)
 - [Reusable builder functions with **`->with(...)`**](./docs/builder-functions-with.md)
 - **Built-in helper builder functions**
     - [**`Hyrule::if(...)`**](./docs/hyrule-if.md)
