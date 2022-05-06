@@ -5,7 +5,7 @@ namespace Square\Hyrule\Tests\Validator;
 use Illuminate\Translation\ArrayLoader;
 use Illuminate\Translation\Translator;
 use Illuminate\Validation\Rule;
-use Monolog\Test\TestCase;
+use PHPUnit\Framework\TestCase;
 use Square\Hyrule\Hyrule;
 use Square\Hyrule\Validator\StrictValidator;
 
