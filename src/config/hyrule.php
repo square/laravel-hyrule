@@ -14,5 +14,5 @@ return [
      *     Square\Hyrule\Validator\ValidatesTopLevelRules
      * 2.) Anything else e.g. NULL/FALSE: Do not override existing behavior.
      */
-    'use_strict_validator_class' => Square\Hyrule\Validator\StrictValidator::class,
+    'use_strict_validator_class' => Square\Hyrule\Validation\StrictValidator::class,
 ];

@@ -7,7 +7,7 @@ use Illuminate\Translation\Translator;
 use Illuminate\Validation\Rule;
 use PHPUnit\Framework\TestCase;
 use Square\Hyrule\Hyrule;
-use Square\Hyrule\Validator\StrictValidator;
+use Square\Hyrule\Validation\StrictValidator;
 
 class StrictValidatorTest extends TestCase
 {

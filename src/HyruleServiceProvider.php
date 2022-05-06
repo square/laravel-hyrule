@@ -7,7 +7,7 @@ use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Validation\Factory;
 use RuntimeException;
-use Square\Hyrule\Validator\StrictValidator;
+use Square\Hyrule\Validation\StrictValidator;
 
 class HyruleServiceProvider extends ServiceProvider
 {

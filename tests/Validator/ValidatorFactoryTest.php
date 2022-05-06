@@ -8,7 +8,7 @@ use Illuminate\Foundation\Application;
 use Illuminate\Validation\Validator;
 use PHPUnit\Framework\TestCase;
 use RuntimeException;
-use Square\Hyrule\Validator\StrictValidator;
+use Square\Hyrule\Validation\StrictValidator;
 
 class ValidatorFactoryTest extends TestCase
 {
