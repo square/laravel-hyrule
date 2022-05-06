@@ -70,7 +70,7 @@ abstract class AbstractNode
      */
     public function getParent(): CompoundNode
     {
-        return $this->parent;
+        return $this->end();
     }
 
 
