@@ -1,6 +1,6 @@
 <?php
 
-namespace Square\Hyrule\Validator;
+namespace Square\Hyrule\Validation;
 
 use Illuminate\Validation\Validator;
 
