@@ -24,7 +24,7 @@ Next, publish the config:
 php artisan vendor:publish --provider="Square\Hyrule\HyruleServiceProvider"
 ```
 
-Although this step is optional, we highly reecommend you take advantage of [`StrictValidator`](./docs/strict-validator.md).
+Although this step is optional, we highly recommend publishing the default config so that you can take advantage of [`StrictValidator`](./docs/strict-validator.md).
 
 
 ## API Basics
