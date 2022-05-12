@@ -24,5 +24,12 @@
             "name": "Bez Hermoso",
             "email": "bezalel@squareup.com"
         }
-    ]
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Square\\Hyrule\\HyruleServiceProvider"
+            ]
+        }
+    }
 }
