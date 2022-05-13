@@ -27,7 +27,7 @@ class RuleMagicMethodsReflectionExtension implements MethodsClassReflectionExten
             $methodName = $reflectionMethod->getName();
             if (preg_match('/^validate[A-Z]+.+$/', $methodName)) {
                 $ruleName = lcfirst(substr($methodName, 8));
-                $this->knownRuleMethods[$ruleName] = null;
+                $this->knownRuleMethods[$ruleName] = true;
             }
         }
     }
@@ -56,7 +56,7 @@ class RuleMagicMethodsReflectionExtension implements MethodsClassReflectionExten
     /**
      * @param ClassReflection $classReflection
      * @param string $methodName
-     * @return mixed|RuleMethodReflection
+     * @return RuleMethodReflection
      */
     private function returnOrCreateMethodReflection(ClassReflection $classReflection, string $methodName)
     {

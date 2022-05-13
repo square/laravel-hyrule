@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Square\Hyrule\Nodes;
 
+use BadMethodCallException;
 use Illuminate\Contracts\Validation\Rule;
 use InvalidArgumentException;
 use LogicException;
@@ -104,6 +105,12 @@ class ArrayNode extends CompoundNode
         if ($name !== '*') {
             throw new InvalidArgumentException(sprintf(
                 '%s can only be called with "*"',
+                __METHOD__,
+            ));
+        }
+        if (!$this->each instanceof AbstractNode) {
+            throw new BadMethodCallException(sprintf(
+                '%s called when element type has not been declared. Did you call each(<TYPE>) yet?',
                 __METHOD__,
             ));
         }
