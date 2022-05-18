@@ -15,7 +15,11 @@
     },
     "autoload": {
         "psr-4": {
-            "Square\\Hyrule\\": "src/",
+            "Square\\Hyrule\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
             "Square\\Hyrule\\Tests\\": "tests/"
         }
     },
