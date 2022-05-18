@@ -16,12 +16,14 @@ Defining validation rules in Laravel involves manually building arrays. As busin
 
 
 ```bash
-composer require square/laravel-hyrule
+composer require square/laravel-hyrule:^2.0
 ```
+
+> For PHP 7.4 support, install the `1.*` versions. See [1.x README](https://github.com/square/laravel-hyrule/blob/1.x/README.md)
 
 ### Setup
 
-1.) Register the service provider:
+1.) If you do not have [package discovery](https://laravel.com/docs/9.x/packages#package-discovery) enabled, you will have to manually register the service provider:
 
 ```php
 // config/app.php
