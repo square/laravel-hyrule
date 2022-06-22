@@ -2,7 +2,6 @@
 
 namespace Square\Hyrule\Rules;
 
-use Hoa\File\File;
 use Square\Hyrule\Nodes\FileNode;
 
 class MIMEType
