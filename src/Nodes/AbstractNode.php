@@ -10,6 +10,7 @@ use LogicException;
 use Square\Hyrule\Build\LazyRuleStringify;
 use Square\Hyrule\Path;
 use Square\Hyrule\PathExp;
+use Stringable;
 
 /**
  * @method $this|AbstractNode|ArrayNode|ScalarNode|ObjectNode required()
@@ -28,7 +29,7 @@ use Square\Hyrule\PathExp;
 abstract class AbstractNode
 {
     /**
-     * @var array|string[]|LazyRuleStringify[]|Rule[]
+     * @var array|string[]|LazyRuleStringify[]|Rule[]|Stringable
      */
     protected array $rules = [];
 
@@ -137,10 +138,10 @@ abstract class AbstractNode
     }
 
     /**
-     * @param string|Rule $rule
-     * @return $this|AbstractNode|ScalarNode|ObjectNode|ArrayNode
+     * @param string|Rule|Stringable $rule
+     * @return AbstractNode
      */
-    public function rule(string|Rule $rule): self
+    public function rule(string|Rule|Stringable $rule): self
     {
         $this->rules[] = $rule;
         return $this;
@@ -205,6 +206,8 @@ abstract class AbstractNode
                 $rule = (string) $rule->setNode($this)->stringify();
             } else if ($rule instanceof self) {
                 $rule = (string) (new Path($rule))->pathName();
+            } else if ($rule instanceof Stringable) {
+                $rule = $rule->__toString();
             }
             return $rule;
         }, $this->rules);
