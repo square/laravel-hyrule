@@ -124,7 +124,7 @@ class MIMEType
 
     /**
      * @param string $type
-     * @param array $subTypes
+     * @param array<string> $subTypes
      * @return $this
      */
     protected function typeAndSubtypes(string $type, array $subTypes): self

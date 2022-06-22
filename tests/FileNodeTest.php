@@ -144,7 +144,7 @@ class FileNodeTest extends NodeTestAbstract
         return [];
     }
 
-    public function testDimensionsFluentAPI()
+    public function testDimensionsFluentAPI(): void
     {
         $file = Hyrule::create()->file('file');
         $dimensions = $file->dimensions();
@@ -153,7 +153,7 @@ class FileNodeTest extends NodeTestAbstract
         $this->assertSame($file, $dimensions->end());
     }
 
-    public function testMIMETypeFluentAPI()
+    public function testMIMETypeFluentAPI(): void
     {
         $file = Hyrule::create()->file('file');
         $mime = $file->mimeType();
@@ -163,12 +163,12 @@ class FileNodeTest extends NodeTestAbstract
     }
 
     /**
-     * @param array $expectedRules
+     * @param array<mixed> $expectedRules
      * @param callable $callback
      * @dataProvider dataBuiltRules
      * @return void
      */
-    public function testBuiltRules(array $expectedRules, callable $callback)
+    public function testBuiltRules(array $expectedRules, callable $callback): void
     {
         $file = Hyrule::create()->file('file');
         $callback($file);

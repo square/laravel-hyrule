@@ -14,7 +14,7 @@ class Dimensions extends DimensionsRule
 
     /**
      * @param FileNode $node
-     * @param array $constraints
+     * @param array<string,mixed> $constraints
      */
     public function __construct(FileNode $node, array $constraints = [])
     {

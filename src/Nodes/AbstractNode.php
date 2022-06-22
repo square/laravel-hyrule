@@ -29,7 +29,7 @@ use Stringable;
 abstract class AbstractNode
 {
     /**
-     * @var array|string[]|LazyRuleStringify[]|Rule[]|Stringable
+     * @var array|string[]|LazyRuleStringify[]|Rule[]|Stringable[]
      */
     protected array $rules = [];
 
