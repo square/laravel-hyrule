@@ -34,4 +34,4 @@ $builder = Hyrule::create()
     // ... 
 ```
 
-See [`File Upload Validation - MIME Types`] for a comprehensive guide on MIME-Type rules.
+See [File Upload Validation - MIME Types](./file-upload-validation-mime-types.md) for a comprehensive guide on MIME-Type rules.
