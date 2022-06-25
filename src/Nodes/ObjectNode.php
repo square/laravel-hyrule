@@ -90,6 +90,15 @@ class ObjectNode extends CompoundNode
 
     /**
      * @param string $name
+     * @return FileNode
+     */
+    public function file(string $name): FileNode
+    {
+        return $this->registerNode(new FileNode($name, $this));
+    }
+
+    /**
+     * @param string $name
      * @return ObjectNode
      */
     public function object(string $name): ObjectNode
@@ -191,6 +200,18 @@ class ObjectNode extends CompoundNode
     public function arrayWith(string $name, callable $callable): self
     {
         $this->registerNode(new ArrayNode($name, $this))
+            ->with($callable);
+        return $this;
+    }
+
+    /**
+     * @param string $name
+     * @param callable $callable
+     * @return $this
+     */
+    public function fileWith(string $name, callable $callable): self
+    {
+        $this->registerNode(new FileNode($name, $this))
             ->with($callable);
         return $this;
     }

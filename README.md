@@ -230,6 +230,24 @@ $builder
             // etc.
 ```
 
+### File Uploads
+
+As of 2.3, Hyrule supports specifying rules for file uploads:
+
+```php
+$builder
+    ->file('attachment')
+        ->required()
+        ->mime('image', 'video', 'text')
+        ->end()
+    // etc.
+
+```
+
+See the following detailed guides on how to validate file uploads by file-type (MIME type), dimensions, etc.
+
+* [File Upload Validation - Images](./docs/file-upload-validation-images.md)
+* [File Upload Validation - Other MIME Types](./docs/file-upload-validation-mime-types.md)
 
 
 ## Rules API
