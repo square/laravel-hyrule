@@ -3,6 +3,7 @@
 namespace Square\Hyrule\Tests;
 
 use Generator;
+use Illuminate\Http\UploadedFile;
 use Square\Hyrule\Nodes\ArrayNode;
 
 class ArrayNodeTest extends NodeTestAbstract
@@ -80,6 +81,21 @@ class ArrayNodeTest extends NodeTestAbstract
                         ->each('integer')->end();
             }
         ];
+
+        yield 'array of images' => [
+            [
+                UploadedFile::fake()->image('foo.jpeg'),
+                UploadedFile::fake()->image('foo.jpg'),
+                UploadedFile::fake()->image('foo.png'),
+                UploadedFile::fake()->image('foo.gif'),
+                UploadedFile::fake()->image('foo.svg'),
+                UploadedFile::fake()->image('foo.bmp'),
+            ],
+            static function(ArrayNode $node) {
+                $node->each('file')
+                    ->image();
+            }
+        ];
     }
 
     /**
@@ -137,6 +153,20 @@ class ArrayNodeTest extends NodeTestAbstract
                 $node->each('array')
                         ->each('integer')->end()
                         ->min(1);
+            }
+        ];
+
+        yield 'array of files' => [
+            [
+                UploadedFile::fake()->create('foo.pdf', 0, 'application/pdf'),
+                UploadedFile::fake()->image('foo.jpeg'),
+                UploadedFile::fake()->create('foo.json', 0, 'application/json'),
+            ],
+            static function(ArrayNode $node) {
+                $node->each('file')
+                    ->mimeType()
+                        ->application('pdf')
+                        ->image('jpeg');
             }
         ];
     }
