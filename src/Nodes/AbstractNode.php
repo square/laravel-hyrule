@@ -166,7 +166,7 @@ abstract class AbstractNode
      */
     public function rule($rule): self
     {
-        if (!is_string($rule) && $rule instanceof Rule) {
+        if (!is_string($rule) && !$rule instanceof Rule) {
             throw new InvalidArgumentException(sprintf(
                 'Expected argument to be a string, or instance of %s.', Rule::class,
             ));
