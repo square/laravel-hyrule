@@ -3,6 +3,7 @@ parameters:
   paths:
     - src
     - tests
+  treatPhpDocTypesAsCertain: false
 
 services:
   - class: Square\Hyrule\PHPStan\ArrayNodeEachDynamicReturnExtension

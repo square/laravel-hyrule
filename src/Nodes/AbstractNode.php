@@ -235,7 +235,7 @@ abstract class AbstractNode
             } else if ($rule instanceof self) {
                 $rule = (string) (new Path($rule))->pathName();
             } else if (method_exists($rule, '__toString')) {
-                $rule = $rule->__toString();
+                $rule = (string) $rule;
             }
             return $rule;
         }, $this->rules);
