@@ -166,9 +166,9 @@ abstract class AbstractNode
      */
     public function rule($rule): self
     {
-        if (!is_string($rule) && !$rule instanceof Rule) {
+        if (!is_string($rule) && !$rule instanceof Rule && !method_exists($rule, '__toString')) {
             throw new InvalidArgumentException(sprintf(
-                'Expected argument to be a string, or instance of %s.', Rule::class,
+                'Expected argument to be a string, instance of %s, or has a __toString() method.', Rule::class,
             ));
         }
         $this->rules[] = $rule;
@@ -234,6 +234,8 @@ abstract class AbstractNode
                 $rule = (string) $rule->setNode($this)->stringify();
             } else if ($rule instanceof self) {
                 $rule = (string) (new Path($rule))->pathName();
+            } else if (method_exists($rule, '__toString')) {
+                $rule = (string) $rule;
             }
             return $rule;
         }, $this->rules);

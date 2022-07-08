@@ -9,9 +9,6 @@ use Illuminate\Contracts\Validation\Rule;
 use InvalidArgumentException;
 use LogicException;
 
-/**
- * @property bool $allowUnknownProperties
- */
 class ArrayNode extends CompoundNode
 {
     /**
@@ -31,6 +28,7 @@ class ArrayNode extends CompoundNode
         'array' => ArrayNode::class,
         'object' => ObjectNode::class,
         'scalar' => ScalarNode::class,
+        'file' => FileNode::class,
     ];
 
     /**
@@ -45,7 +43,7 @@ class ArrayNode extends CompoundNode
 
     /**
      * @param string $type
-     * @return AbstractNode|ArrayNode|ObjectNode
+     * @return AbstractNode|ArrayNode|ObjectNode|FileNode
      */
     public function each(string $type): AbstractNode
     {

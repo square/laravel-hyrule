@@ -13,6 +13,7 @@ use PHPStan\Type\ObjectType;
 use PHPStan\Type\Type;
 use Square\Hyrule\Nodes\ArrayNode;
 use Square\Hyrule\Nodes\BooleanNode;
+use Square\Hyrule\Nodes\FileNode;
 use Square\Hyrule\Nodes\FloatNode;
 use Square\Hyrule\Nodes\IntegerNode;
 use Square\Hyrule\Nodes\NumericNode;
@@ -65,6 +66,8 @@ class ArrayNodeEachDynamicReturnExtension implements DynamicMethodReturnTypeExte
                 return new ObjectType(NumericNode::class);
             case "boolean":
                 return new ObjectType(BooleanNode::class);
+            case "file":
+                return new ObjectType(FileNode::class);
             default:
                 return null;
         }
