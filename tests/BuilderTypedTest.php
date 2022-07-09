@@ -197,7 +197,7 @@ class BuilderTypedTest extends TestCase
         ], $builder->build());
     }
 
-    public function testRequiredIfBooleans()
+    public function testRequiredIfBooleans(): void
     {
         $builder = Hyrule::create()
             ->boolean('include_title')
