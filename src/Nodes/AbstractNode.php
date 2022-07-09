@@ -6,6 +6,7 @@ namespace Square\Hyrule\Nodes;
 
 use Illuminate\Contracts\Validation\Rule;
 use Illuminate\Support\Str;
+use InvalidArgumentException;
 use LogicException;
 use Square\Hyrule\Build\LazyRuleStringify;
 use Square\Hyrule\Path;
@@ -93,11 +94,12 @@ abstract class AbstractNode
 
     /**
      * @param string|PathExp|AbstractNode $path
-     * @param string $value
+     * @param mixed $value
      * @return $this
      */
-    public function requiredIf(string|PathExp|AbstractNode $path, string $value): self
+    public function requiredIf(string|PathExp|AbstractNode $path, mixed $value): self
     {
+        $value = LazyRuleStringify::normalizeRuleArgumentValue($value);
         if ($path instanceof PathExp || $path instanceof self) {
             $rule = new LazyRuleStringify('required_if', [$path, $value]);
         } else {
@@ -185,6 +187,7 @@ abstract class AbstractNode
         }
 
         if (!$rule instanceof LazyRuleStringify) {
+            $arguments = array_map('\Square\Hyrule\Build\LazyRuleStringify::normalizeRuleArgumentValue', $arguments);
             $rule = sprintf('%s:%s', $methodName, implode(',', $arguments));
         }
 
