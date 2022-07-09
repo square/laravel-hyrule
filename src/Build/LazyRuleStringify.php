@@ -98,9 +98,14 @@ class LazyRuleStringify
                     return $value;
                     break;
                 }
-                throw new InvalidArgumentException('Objects must implement Stringable if used as arguments to string-based rules.');
+                throw new InvalidArgumentException(
+                    'Objects must implement Stringable if used as arguments to string-based rules.',
+                );
             default:
-                throw new InvalidArgumentException(sprintf('Cannot use %s as argument to string-based rules.', gettype($v)));
+                throw new InvalidArgumentException(sprintf(
+                    'Cannot use %s as argument to string-based rules.',
+                    gettype($value),
+                ));
         }
     }
 }
