@@ -56,7 +56,7 @@ abstract class AbstractNode
     }
 
     /**
-     * @return CompoundNode
+     * @return CompoundNode|ObjectNode|ArrayNode
      */
     public function end(): CompoundNode
     {
