@@ -9,6 +9,7 @@ use Illuminate\Support\Str;
 use InvalidArgumentException;
 use LogicException;
 use Square\Hyrule\Build\LazyRuleStringify;
+use Square\Hyrule\Build\RuleItem;
 use Square\Hyrule\Path;
 use Square\Hyrule\PathExp;
 use Stringable;
@@ -105,7 +106,7 @@ abstract class AbstractNode
         } else {
             $rule = sprintf('required_if:%s,%s', $path, $value);
         }
-        $this->rules[] = $rule;
+        $this->rules[] = RuleItem::fromRuleArguments('required_if', [$path, $value]);
         return $this;
     }
 
