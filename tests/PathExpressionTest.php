@@ -27,7 +27,7 @@ class PathExpressionTest extends TestCase
                         ->integer('start');
 
         $target = $exp->traverse($start);
-        $this->assertEquals('target', $target->getName());
+        $this->assertSame('target', $target->getName());
     }
 
     public function testNodeTraversal(): void
