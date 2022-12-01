@@ -46,7 +46,7 @@ abstract class NodeTestAbstract extends TestCase
     {
         $methodName = $this->getBuilderMethodName();
         $node = Hyrule::create()->$methodName('foo');
-        $this->assertEquals('foo', $node->getName());
+        $this->assertSame('foo', $node->getName());
     }
 
     /**

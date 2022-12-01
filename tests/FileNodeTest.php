@@ -172,7 +172,7 @@ class FileNodeTest extends NodeTestAbstract
     {
         $file = Hyrule::create()->file('file');
         $callback($file);
-        $this->assertEquals($expectedRules, $file->build()['file']);
+        $this->assertSame($expectedRules, $file->build()['file']);
     }
 
     /**
