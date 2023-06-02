@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Square\Hyrule\Tests;
 
+use Illuminate\Translation\ArrayLoader;
+use Illuminate\Translation\Translator;
+use Illuminate\Validation\Factory;
 use PHPUnit\Framework\TestCase;
 use Square\Hyrule\Hyrule;
 use Square\Hyrule\Nodes\ArrayNode;
@@ -192,5 +195,25 @@ class BuilderTypedTest extends TestCase
             'bar.baz' => [new KnownPropertiesOnly(['foo'])],
             'bar.baz.foo' => ['integer', 'required_without:bar.foo'],
         ], $builder->build());
+    }
+
+    public function testRequiredIfBooleans(): void
+    {
+        $builder = Hyrule::create()
+            ->boolean('include_title')
+                ->end()
+            ->string('title')
+                ->requiredIf('include_title', true)
+                ->end()
+            ->end();
+
+        $rules = $builder->build();
+
+        $factory = new Factory(new Translator(new ArrayLoader(), 'en'));
+        $validator = $factory->make([
+            'include_title' => true,
+        ], $rules);
+
+        $this->assertFalse($validator->passes());
     }
 }
