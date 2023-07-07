@@ -2,13 +2,14 @@
 
 namespace Square\Hyrule\Tests;
 
+use Generator;
 use PHPUnit\Framework\TestCase;
 use Square\Hyrule\Hyrule;
 
 class AbstractNodeTest extends TestCase
 {
     /**
-     * @param array $args
+     * @param array<mixed> $args
      * @param string $expected
      * @return void
      * @dataProvider dataRequiredUnless
@@ -25,7 +26,7 @@ class AbstractNodeTest extends TestCase
         $this->assertEquals($expected, $rules['foo.bar'][1]);
     }
 
-    public static function dataRequiredUnless()
+    public static function dataRequiredUnless(): Generator
     {
         yield 'string path' => [
             ['foo.bar', 'boo'],
@@ -49,7 +50,7 @@ class AbstractNodeTest extends TestCase
     }
 
     /**
-     * @param array $args
+     * @param array<mixed> $args
      * @param string $expected
      * @return void
      * @dataProvider dataRequiredIf
@@ -67,7 +68,7 @@ class AbstractNodeTest extends TestCase
     }
 
 
-    public static function dataRequiredIf()
+    public static function dataRequiredIf(): Generator
     {
         yield 'string path' => [
             ['foo.bar', 'boo'],
@@ -91,7 +92,7 @@ class AbstractNodeTest extends TestCase
     }
 
     /**
-     * @param array $arg
+     * @param mixed $arg
      * @param string $expected
      * @return void
      * @dataProvider dataRequiredWith
@@ -109,7 +110,7 @@ class AbstractNodeTest extends TestCase
     }
 
 
-    public static function dataRequiredWith()
+    public static function dataRequiredWith(): Generator
     {
         yield 'string path' => [
             'foo.bar',
@@ -133,7 +134,7 @@ class AbstractNodeTest extends TestCase
     }
 
     /**
-     * @param array $arg
+     * @param mixed $arg
      * @param string $expected
      * @return void
      * @dataProvider dataRequiredWithout
@@ -151,7 +152,7 @@ class AbstractNodeTest extends TestCase
     }
 
 
-    public static function dataRequiredWithout()
+    public static function dataRequiredWithout(): Generator
     {
         yield 'string path' => [
             'foo.bar',
@@ -175,7 +176,7 @@ class AbstractNodeTest extends TestCase
     }
 
     /**
-     * @param array $args
+     * @param array<mixed> $args
      * @param string $expected
      * @return void
      * @dataProvider dataExcludeUnless
@@ -192,7 +193,7 @@ class AbstractNodeTest extends TestCase
         $this->assertEquals($expected, $rules['foo.bar'][1]);
     }
 
-    public static function dataExcludeUnless()
+    public static function dataExcludeUnless(): Generator
     {
         yield 'string path' => [
             ['foo.bar', 'boo'],
@@ -216,7 +217,7 @@ class AbstractNodeTest extends TestCase
     }
 
     /**
-     * @param array $args
+     * @param array<mixed> $args
      * @param string $expected
      * @return void
      * @dataProvider dataExcludeIf
@@ -233,7 +234,7 @@ class AbstractNodeTest extends TestCase
         $this->assertEquals($expected, $rules['foo.bar'][1]);
     }
 
-    public static function dataExcludeIf()
+    public static function dataExcludeIf(): Generator
     {
         yield 'string path' => [
             ['foo.bar', 'boo'],
@@ -257,7 +258,7 @@ class AbstractNodeTest extends TestCase
     }
 
     /**
-     * @param array $arg
+     * @param mixed $arg
      * @param string $expected
      * @return void
      * @dataProvider dataExcludeWith
@@ -275,7 +276,7 @@ class AbstractNodeTest extends TestCase
     }
 
 
-    public static function dataExcludeWith()
+    public static function dataExcludeWith(): Generator
     {
         yield 'string path' => [
             'foo.bar',
@@ -299,7 +300,7 @@ class AbstractNodeTest extends TestCase
     }
 
     /**
-     * @param array $arg
+     * @param mixed $arg
      * @param string $expected
      * @return void
      * @dataProvider dataExcludeWithout
@@ -317,7 +318,7 @@ class AbstractNodeTest extends TestCase
     }
 
 
-    public static function dataExcludeWithout()
+    public static function dataExcludeWithout(): Generator
     {
         yield 'string path' => [
             'foo.bar',
@@ -341,7 +342,7 @@ class AbstractNodeTest extends TestCase
     }
 
     /**
-     * @param array $args
+     * @param array<mixed> $args
      * @param string $expected
      * @return void
      * @dataProvider dataProhibitedUnless
@@ -358,7 +359,7 @@ class AbstractNodeTest extends TestCase
         $this->assertEquals($expected, $rules['foo.bar'][1]);
     }
 
-    public static function dataProhibitedUnless()
+    public static function dataProhibitedUnless(): Generator
     {
         yield 'string path' => [
             ['foo.bar', 'boo'],
@@ -382,7 +383,7 @@ class AbstractNodeTest extends TestCase
     }
 
     /**
-     * @param array $args
+     * @param array<mixed> $args
      * @param string $expected
      * @return void
      * @dataProvider dataProhibitedIf
@@ -399,7 +400,7 @@ class AbstractNodeTest extends TestCase
         $this->assertEquals($expected, $rules['foo.bar'][1]);
     }
 
-    public static function dataProhibitedIf()
+    public static function dataProhibitedIf(): Generator
     {
         yield 'string path' => [
             ['foo.bar', 'boo'],
