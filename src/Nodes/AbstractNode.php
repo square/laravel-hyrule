@@ -369,13 +369,13 @@ abstract class AbstractNode
          */
         foreach ($arguments as $arg) {
             if ($arg instanceof PathExp || $arg instanceof self) {
-                $rule = new LazyRuleStringify($methodName, $arguments);
+                $rule = new LazyRuleStringify($ruleName, $arguments);
                 break;
             }
         }
 
         if (!$rule instanceof LazyRuleStringify) {
-            $rule = sprintf('%s:%s', $methodName, implode(',', $arguments));
+            $rule = sprintf('%s:%s', $ruleName, implode(',', $arguments));
         }
 
         $this->rules[] = $rule;
