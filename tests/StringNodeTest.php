@@ -28,7 +28,7 @@ class StringNodeTest extends NodeTestAbstract
     /**
      * @return Generator
      */
-    public function dataValid()
+    public static function dataValid()
     {
         yield 'string' => [
             'foo',
@@ -42,7 +42,7 @@ class StringNodeTest extends NodeTestAbstract
     /**
      * @return Generator
      */
-    public function dataInvalid()
+    public static function dataInvalid()
     {
         yield 'integer' => [
             1,

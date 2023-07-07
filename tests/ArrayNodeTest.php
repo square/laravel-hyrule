@@ -29,7 +29,7 @@ class ArrayNodeTest extends NodeTestAbstract
     /**
      * @return Generator
      */
-    public function dataValid()
+    public static function dataValid()
     {
         yield 'empty array' => [
             [],
@@ -101,7 +101,7 @@ class ArrayNodeTest extends NodeTestAbstract
     /**
      * @return Generator
      */
-    public function dataInvalid()
+    public static function dataInvalid()
     {
         yield 'string' => [
             '[]',

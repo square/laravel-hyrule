@@ -28,7 +28,7 @@ class ObjectNodeTest extends NodeTestAbstract
     /**
      * @return \Generator
      */
-    public function dataValid()
+    public static function dataValid()
     {
         yield '#0' => [
             ['a' => 1],
@@ -68,7 +68,7 @@ class ObjectNodeTest extends NodeTestAbstract
     /**
      * @return \Generator
      */
-    public function dataInvalid()
+    public static function dataInvalid()
     {
         yield 'string' => [
             '{}',

@@ -28,7 +28,7 @@ class NumericNodeTest extends NodeTestAbstract
     /**
      * @return array<array<mixed>>
      */
-    public function dataValid()
+    public static function dataValid()
     {
         return [
             [1],
@@ -43,7 +43,7 @@ class NumericNodeTest extends NodeTestAbstract
     /**
      * @return Generator
      */
-    public function dataInvalid()
+    public static function dataInvalid()
     {
         yield 'string' => [
             'a',

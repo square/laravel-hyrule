@@ -129,7 +129,7 @@ abstract class NodeTestAbstract extends TestCase
     /**
      * @return array<array<mixed>>|Generator
      */
-    public function dataValid()
+    public static function dataValid()
     {
         return [];
     }
@@ -137,7 +137,7 @@ abstract class NodeTestAbstract extends TestCase
     /**
      * @return array<array<mixed>>|Generator
      */
-    public function dataInvalid()
+    public static function dataInvalid()
     {
         return [];
     }

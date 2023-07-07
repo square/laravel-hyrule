@@ -17,7 +17,7 @@ class FileNodeTest extends NodeTestAbstract
         return 'file';
     }
 
-    public function dataValid()
+    public static function dataValid()
     {
         yield 'image' => [
             UploadedFile::fake()->image('foo.jpg'),
@@ -82,7 +82,7 @@ class FileNodeTest extends NodeTestAbstract
             },
         ];
     }
-    public function dataInvalid()
+    public static function dataInvalid()
     {
         yield 'image' => [
             UploadedFile::fake()->create('foo.txt'),
@@ -178,7 +178,7 @@ class FileNodeTest extends NodeTestAbstract
     /**
      * @return Generator
      */
-    public function dataBuiltRules(): Generator
+    public static function dataBuiltRules(): Generator
     {
         yield 'dimensions: max width & height' => [
             ['dimensions:max_width=100,max_height=100'],

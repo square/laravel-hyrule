@@ -23,4 +23,26 @@ class BooleanNodeTest extends NodeTestAbstract
     {
         return ['boolean'];
     }
+
+    public static function dataValid()
+    {
+        return [
+            [true],
+            [false],
+            [1],
+            [0],
+        ];
+    }
+
+
+    public static function dataInvalid()
+    {
+        return [
+            ['true'],
+            ['false'],
+            [null],
+            [2],
+            [-1],
+        ];
+    }
 }
