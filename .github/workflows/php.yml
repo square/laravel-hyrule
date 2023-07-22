@@ -29,13 +29,10 @@ jobs:
           ${{ runner.os }}-php-
 
     - name: Install dependencies
-      run: composer install --prefer-dist --no-progress
+      run: composer update --no-progress --prefer-lowest
 
     # Add a test script to composer.json, for instance: "test": "vendor/bin/phpunit"
     # Docs: https://getcomposer.org/doc/articles/scripts.md
 
-    - name: Run test suite
-      run: ./vendor/bin/phpunit tests
-
-    - name: Run static analysis
-      run: ./vendor/bin/phpstan analyze
+    - name: Run unit tests, static analysis, etc.
+      run: composer ci
