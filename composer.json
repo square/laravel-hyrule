@@ -9,8 +9,8 @@
         "illuminate/support": "^10.0"
     },
     "require-dev": {
-        "phpunit/phpunit": "^10.0",
-        "phpstan/phpstan": "^1.5",
+        "phpunit/phpunit": "^10.2",
+        "phpstan/phpstan": "^1.10",
         "laravel/framework": "^10.0"
     },
     "autoload": {
@@ -35,5 +35,14 @@
                 "Square\\Hyrule\\HyruleServiceProvider"
             ]
         }
+    },
+    "scripts": {
+        "test": "phpunit ./tests --testdox",
+        "analyze": "phpstan analyze --memory-limit=1024M",
+        "ci": [
+            "[[ ! -f vendor/autoload.php ]] && composer update --prefer-lowest || echo 'Dependencies already vendored'",
+            "@test",
+            "@analyze"
+        ]
     }
 }
