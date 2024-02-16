@@ -193,4 +193,48 @@ class BuilderTypedTest extends TestCase
             'bar.baz.foo' => ['integer', 'required_without:bar.foo'],
         ], $builder->build());
     }
+
+    public function testFloatInsideRepeatedObject(): void
+    {
+        $builder = Hyrule::create();
+
+        $builder = $builder
+            ->array('areas')
+                ->each('object')
+                        ->object('coordinates')
+                        ->nullable()
+                        ->float('latitude')
+                            ->nullable()
+                            ->end()
+                        ->float('longitude')
+                            ->nullable()
+                            ->end()
+                        ->end()
+                ->end()
+            ->end();
+        $rules = $builder->build();
+
+        $this->assertEquals(
+            [
+                '' => [new KnownPropertiesOnly(['areas'])],
+                'areas' => ['array'],
+                'areas.*' => [
+                    new KnownPropertiesOnly(['coordinates']),
+                ],
+                'areas.*.coordinates' => [
+                    new KnownPropertiesOnly(['latitude', 'longitude']),
+                    'nullable',
+                ],
+                'areas.*.coordinates.latitude' => [
+                    'numeric',
+                    'nullable',
+                ],
+                'areas.*.coordinates.longitude' => [
+                    'numeric',
+                    'nullable',
+                ]
+            ],
+            $rules,
+        );
+    }
 }
