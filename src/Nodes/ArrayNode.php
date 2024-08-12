@@ -27,9 +27,9 @@ class ArrayNode extends CompoundNode
 
     /**
      * @param string|NodeType $type
-     * @return AbstractNode
+     * @return ScalarNode|ArrayNode|ObjectNode|FileNode
      */
-    public function each(string|NodeType $type): AbstractNode
+    public function each(NodeType|string $type): AbstractNode
     {
         $className = $this->resolveNodeClassName($type);
         $this->failIfTypeChanged($className);
