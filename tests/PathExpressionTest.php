@@ -7,6 +7,7 @@ namespace Square\Hyrule\Tests;
 use PHPUnit\Framework\TestCase;
 use Square\Hyrule\Hyrule;
 use Square\Hyrule\Nodes\ArrayNode;
+use Square\Hyrule\Nodes\NodeType;
 use Square\Hyrule\Nodes\ObjectNode;
 use Square\Hyrule\PathExp;
 use Square\Hyrule\Rules\KnownPropertiesOnly;
@@ -36,13 +37,13 @@ class PathExpressionTest extends TestCase
         $reference = $node
             ->min(1)
             ->max(20)
-            ->each('object')
+            ->each(NodeType::Object)
                 ->string('name')->required()->max(255)->end()
                 ->boolean('cool_kid')->nullable()->end()
                 ->array('hobbies')
                     ->requiredIf(PathExp::new()->parent()->get('cool_kid'), '1')
                     ->max(5)
-                    ->each('string')
+                    ->each(NodeType::String)
                         ->uppercase()
                     ->end()
                 ->end();

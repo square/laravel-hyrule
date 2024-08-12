@@ -8,6 +8,7 @@ use PHPUnit\Framework\TestCase;
 use Square\Hyrule\Hyrule;
 use Square\Hyrule\Nodes\ArrayNode;
 use Square\Hyrule\Nodes\IntegerNode;
+use Square\Hyrule\Nodes\NodeType;
 use Square\Hyrule\Nodes\ObjectNode;
 use Square\Hyrule\Nodes\ScalarNode;
 use Square\Hyrule\Nodes\StringNode;
@@ -104,7 +105,7 @@ class BuilderTypedTest extends TestCase
     {
         $node = new ArrayNode('bar');
         $reference = $node
-            ->each('string')
+            ->each(NodeType::String)
                 ->min(2)
                 ->max(20);
 
@@ -125,7 +126,7 @@ class BuilderTypedTest extends TestCase
         $reference = $node
             ->min(1)
             ->max(20)
-            ->each('object')
+            ->each(NodeType::Object)
                 ->string('name')->required()->max(255)->end()
                 ->integer('age')->nullable()->end()
                 ->boolean('accept')->required()->end();
@@ -150,11 +151,11 @@ class BuilderTypedTest extends TestCase
         $reference = $node
             ->min(1)
             ->max(20)
-            ->each('object')
+            ->each(NodeType::Object)
                 ->string('name')->required()->max(255)->end()
                 ->array('hobbies')
                     ->max(5)
-                    ->each('string')
+                    ->each(NodeType::String)
                         ->uppercase()
                     ->end()
                 ->end();
@@ -200,7 +201,7 @@ class BuilderTypedTest extends TestCase
 
         $builder = $builder
             ->array('areas')
-                ->each('object')
+                ->each(NodeType::Object)
                         ->object('coordinates')
                         ->nullable()
                         ->float('latitude')

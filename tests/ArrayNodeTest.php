@@ -153,7 +153,7 @@ class ArrayNodeTest extends NodeTestAbstract
                 [],
             ],
             static function (ArrayNode $node) {
-                $node->each('array')
+                $node->each(NodeType::Array)
                         ->each(NodeType::Integer)->end()
                         ->min(1);
             }
@@ -177,7 +177,7 @@ class ArrayNodeTest extends NodeTestAbstract
     /**
      * @param mixed $type
      * @return void
-     * @dataProvider dataRedefininSameType
+     * @dataProvider dataRedefiningSameType
      */
     public function testRedefiningSameType(mixed $type)
     {
@@ -187,7 +187,7 @@ class ArrayNodeTest extends NodeTestAbstract
         $this->assertSame($original, $redefined);
     }
 
-    public function dataRedefininSameType()
+    public static function dataRedefiningSameType()
     {
         foreach (NodeType::cases() as $nodeType) {
             yield $nodeType->name => [$nodeType];
