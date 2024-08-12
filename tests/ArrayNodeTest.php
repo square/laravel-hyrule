@@ -4,7 +4,10 @@ namespace Square\Hyrule\Tests;
 
 use Generator;
 use Illuminate\Http\UploadedFile;
+use LogicException;
+use Square\Hyrule\Hyrule;
 use Square\Hyrule\Nodes\ArrayNode;
+use Square\Hyrule\Nodes\NodeType;
 
 class ArrayNodeTest extends NodeTestAbstract
 {
@@ -47,14 +50,14 @@ class ArrayNodeTest extends NodeTestAbstract
         yield 'array of integers' => [
             range(1, 100),
             static function (ArrayNode $node) {
-                $node->each('integer');
+                $node->each(NodeType::Integer);
             },
         ];
 
         yield 'array of strings' => [
             range('a', 'z'),
             static function (ArrayNode $node) {
-                $node->each('string');
+                $node->each(NodeType::String);
             },
         ];
 
@@ -65,8 +68,8 @@ class ArrayNodeTest extends NodeTestAbstract
                 [],
             ],
             static function (ArrayNode $node) {
-                $node->each('array')
-                    ->each('integer');
+                $node->each(NodeType::Array)
+                    ->each(NodeType::Integer);
             }
         ];
 
@@ -76,9 +79,9 @@ class ArrayNodeTest extends NodeTestAbstract
                 [1, 2, 3],
             ],
             static function (ArrayNode $node) {
-                $node->each('array')
+                $node->each(NodeType::Array)
                     ->min(1)
-                        ->each('integer')->end();
+                        ->each(NodeType::Integer)->end();
             }
         ];
 
@@ -92,7 +95,7 @@ class ArrayNodeTest extends NodeTestAbstract
                 UploadedFile::fake()->image('foo.bmp'),
             ],
             static function(ArrayNode $node) {
-                $node->each('file')
+                $node->each(NodeType::File)
                     ->image();
             }
         ];
@@ -114,21 +117,21 @@ class ArrayNodeTest extends NodeTestAbstract
         yield 'mixed array' => [
             [1, 2, 3, 'a', []],
             static function (ArrayNode $node) {
-                $node->each('integer');
+                $node->each(NodeType::Integer);
             }
         ];
 
         yield 'array of integers' => [
             range('a', 'z'),
             static function (ArrayNode $node) {
-                $node->each('integer');
+                $node->each(NodeType::Integer);
             },
         ];
 
         yield 'array of strings' => [
             range(1, 100),
             static function (ArrayNode $node) {
-                $node->each('string');
+                $node->each(NodeType::String);
             },
         ];
 
@@ -138,8 +141,8 @@ class ArrayNodeTest extends NodeTestAbstract
             ],
             static function (ArrayNode $node) {
                 $node
-                    ->each('array')
-                    ->each('integer');
+                    ->each(NodeType::Array)
+                    ->each(NodeType::Integer);
             }
         ];
 
@@ -151,7 +154,7 @@ class ArrayNodeTest extends NodeTestAbstract
             ],
             static function (ArrayNode $node) {
                 $node->each('array')
-                        ->each('integer')->end()
+                        ->each(NodeType::Integer)->end()
                         ->min(1);
             }
         ];
@@ -163,11 +166,60 @@ class ArrayNodeTest extends NodeTestAbstract
                 UploadedFile::fake()->create('foo.json', 0, 'application/json'),
             ],
             static function(ArrayNode $node) {
-                $node->each('file')
+                $node->each(NodeType::File)
                     ->mimeType()
                         ->application('pdf')
                         ->image('jpeg');
             }
         ];
+    }
+
+    /**
+     * @param mixed $type
+     * @return void
+     * @dataProvider dataRedefininSameType
+     */
+    public function testRedefiningSameType(mixed $type)
+    {
+        $list = Hyrule::create()->array('list');
+        $original = $list->each($type);
+        $redefined = $list->each($type);
+        $this->assertSame($original, $redefined);
+    }
+
+    public function dataRedefininSameType()
+    {
+        foreach (NodeType::cases() as $nodeType) {
+            yield $nodeType->name => [$nodeType];
+            yield $nodeType->nodeClassName() => [$nodeType->nodeClassName()];
+        }
+    }
+
+    public function testRedefiningNotAllowedWithNonDifferentType()
+    {
+        $this->expectException(LogicException::class);
+        $list = Hyrule::create()->array('list');
+        $list->each(NodeType::Integer);
+        $list->each(NodeType::String);
+    }
+
+    public function testRedefiningNotAllowedWithSubtype()
+    {
+        $this->expectException(LogicException::class);
+        $list = Hyrule::create()->array('list');
+        // Pre-condition: we expect IntegerNode to be sub-type of ScalarNode
+        $this->assertTrue(is_a(NodeType::Integer->nodeClassName(), NodeType::Scalar->nodeClassName(), true), 'Pre-condition failed.');
+        $list->each(NodeType::Scalar);
+        $list->each(NodeType::Integer);
+    }
+
+    public function testRedefiningNotAllowedWithSuperType()
+    {
+        $this->expectException(LogicException::class);
+        $list = Hyrule::create()->array('list');
+        // Pre-condition: we expect IntegerNode to be sub-type of ScalarNode
+        $this->assertTrue(is_a(NodeType::Integer->nodeClassName(), NodeType::Scalar->nodeClassName(), true), 'Pre-condition failed.');
+        $list->each(NodeType::Integer);
+        $list->each(NodeType::Scalar);
     }
 }

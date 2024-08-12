@@ -3,7 +3,6 @@
 declare(strict_types=1);
 
 namespace Square\Hyrule\Nodes;
-
 use BadMethodCallException;
 use Illuminate\Contracts\Validation\Rule;
 use InvalidArgumentException;
@@ -17,21 +16,6 @@ class ArrayNode extends CompoundNode
     protected $each = null;
 
     /**
-     * @var class-string<AbstractNode>[]
-     */
-    private array $typeMap = [
-        'integer' => IntegerNode::class,
-        'string' => StringNode::class,
-        'numeric' => NumericNode::class,
-        'float' => FloatNode::class,
-        'boolean' => BooleanNode::class,
-        'array' => ArrayNode::class,
-        'object' => ObjectNode::class,
-        'scalar' => ScalarNode::class,
-        'file' => FileNode::class,
-    ];
-
-    /**
      * @param string $name
      * @param CompoundNode|null $parent
      */
@@ -42,39 +26,24 @@ class ArrayNode extends CompoundNode
     }
 
     /**
-     * @param string $type
-     * @return AbstractNode|ArrayNode|ObjectNode|FileNode
+     * @param string|NodeType $type
+     * @return AbstractNode
      */
-    public function each(string $type): AbstractNode
+    public function each(string|NodeType $type): AbstractNode
     {
-        $expectedType = $this->typeMap[$type] ?? null;
-        if ($expectedType === null) {
-            $expectedType = $type;
-            if (!is_a($expectedType, AbstractNode::class, true)) {
-                throw new InvalidArgumentException(sprintf(
-                    'Expected type to be one of [%s], or a class implementing %s. Got "%s"',
-                    implode(', ', array_keys($this->typeMap)),
-                    AbstractNode::class,
-                    $type,
-                ));
-            }
-        }
+        $className = $this->resolveNodeClassName($type);
+        $this->failIfTypeChanged($className);
 
         if (isset($this->each)) {
-            if ($expectedType !== get_class($this->each)) {
-                throw new LogicException(sprintf(
-                    'Cannot re-define of the underlying type for %s to "%s". Already defined as %s.',
-                    self::class,
-                    $type,
-                    get_class($this->each),
-                ));
-            }
+            // Return existing sub-node if already defined.
             return $this->each;
         }
 
-        $each = new $expectedType('*', $this);
-        $this->each = $each;
-        return $each;
+        // Otherwise, create the sub-node of the desired type.
+        $each = new $className('*', $this);
+        // Help static analysis tools
+        assert($each instanceof AbstractNode);
+        return $this->each = $each;
     }
 
     /**
@@ -128,5 +97,50 @@ class ArrayNode extends CompoundNode
             ));
         }
         return isset($this->each);
+    }
+
+    /**
+     * Checks if existing sub-node matches the desired type exactly. Throws an exception if the check fails.
+     * @param string $className
+     * @return void
+     */
+    private function failIfTypeChanged(string $className): void
+    {
+        if (isset($this->each) && $className !== get_class($this->each)) {
+            throw new LogicException(sprintf(
+                'Cannot re-define of the underlying type for %s to "%s". Already defined as %s.',
+                static::class,
+                $className,
+                get_class($this->each),
+            ));
+        }
+    }
+
+    /**
+     * @param NodeType|string $type
+     * @return string
+     */
+    public function resolveNodeClassName(NodeType|string $type): string
+    {
+        if ($type instanceof NodeType) {
+            return $type->nodeClassName();
+        }
+
+        $nodeType = NodeType::tryFrom($type);
+        if ($nodeType instanceof NodeType) {
+            trigger_error(sprintf('The use of short-hand type names is deprecated. Use the %s enum.', NodeType::class), E_USER_DEPRECATED);
+            return $nodeType->nodeClassName();
+        }
+
+        if (!is_a($type, AbstractNode::class, true)) {
+            throw new InvalidArgumentException(sprintf(
+                'Expected type to be a value of enum %s, or a name of a class extending %s. Got "%s"',
+                NodeType::class,
+                AbstractNode::class,
+                $type,
+            ));
+        }
+
+        return $type;
     }
 }
