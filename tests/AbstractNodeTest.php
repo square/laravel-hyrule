@@ -422,4 +422,45 @@ class AbstractNodeTest extends TestCase
             'prohibited_if:foo,baz',
         ];
     }
+
+    /**
+     * @param mixed $path
+     * @param string $expected
+     * @return void
+     * @dataProvider dataRequiredIfDeclined
+     */
+    public function testRequiredIfDeclined(mixed $path, string $expected)
+    {
+        $node = Hyrule::create()
+            ->object('foo')
+            ->string('bar')
+            ->requiredIfDeclined($path)
+            ->end()
+            ->end();
+        $rules = $node->build();
+        $this->assertEquals($expected, $rules['foo.bar'][1]);
+    }
+
+    public static function dataRequiredIfDeclined(): Generator
+    {
+        yield 'string path' => [
+            'foo.bar',
+            'required_if_declined:foo.bar',
+        ];
+
+        yield 'node path' => [
+            Hyrule::create()->string('boom'),
+            'required_if_declined:boom',
+        ];
+
+        yield 'nested node path' => [
+            Hyrule::create()->object('foo')->string('bar'),
+            'required_if_declined:foo.bar',
+        ];
+
+        yield 'path expression' => [
+            Hyrule::pathExp()->parent(),
+            'required_if_declined:foo',
+        ];
+    }
 }
