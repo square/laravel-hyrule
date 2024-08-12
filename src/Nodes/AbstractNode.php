@@ -98,13 +98,25 @@ abstract class AbstractNode
      */
     public function requiredIf(string|PathExp|AbstractNode $path, string $value): self
     {
-        if ($path instanceof PathExp || $path instanceof self) {
-            $rule = new LazyRuleStringify('required_if', [$path, $value]);
-        } else {
-            $rule = sprintf('required_if:%s,%s', $path, $value);
-        }
-        $this->rules[] = $rule;
-        return $this;
+        return $this->buildAndAddRule('required_if', [$path, $value]);
+    }
+
+    /**
+     * @param string|PathExp|AbstractNode $path
+     * @return $this
+     */
+    public function requiredIfAccepted(string|PathExp|AbstractNode $path): self
+    {
+        return $this->buildAndAddRule('required_if_accepted', [$path]);
+    }
+
+    /**
+     * @param string|PathExp|AbstractNode $path
+     * @return $this
+     */
+    public function requiredIfDeclined(string|PathExp|AbstractNode $path): self
+    {
+        return $this->buildAndAddRule('required_if_declined', [$path]);
     }
 
     /**
@@ -114,13 +126,7 @@ abstract class AbstractNode
      */
     public function requiredUnless(string|PathExp|AbstractNode $path, string $value): self
     {
-        if ($path instanceof PathExp || $path instanceof self) {
-            $rule = new LazyRuleStringify('required_unless', [$path, $value]);
-        } else {
-            $rule = sprintf('required_unless:%s,%s', $path, $value);
-        }
-        $this->rules[] = $rule;
-        return $this;
+        return $this->buildAndAddRule('required_unless', [$path, $value]);
     }
 
     /**
@@ -129,13 +135,7 @@ abstract class AbstractNode
      */
     public function requiredWithout(string|PathExp|AbstractNode $path): self
     {
-        if ($path instanceof PathExp || $path instanceof self) {
-            $rule = new LazyRuleStringify('required_without', [$path]);
-        } else {
-            $rule = sprintf('required_without:%s', $path);
-        }
-        $this->rules[] = $rule;
-        return $this;
+        return $this->buildAndAddRule('required_without', [$path]);
     }
 
     /**
@@ -144,13 +144,7 @@ abstract class AbstractNode
      */
     public function requiredWith(string|PathExp|AbstractNode $path): self
     {
-        if ($path instanceof PathExp || $path instanceof self) {
-            $rule = new LazyRuleStringify('required_with', [$path]);
-        } else {
-            $rule = sprintf('required_with:%s', $path);
-        }
-        $this->rules[] = $rule;
-        return $this;
+        return $this->buildAndAddRule('required_with', [$path]);
     }
 
     /**
@@ -160,13 +154,7 @@ abstract class AbstractNode
      */
     public function declinedIf(string|PathExp|AbstractNode $path, string $value): self
     {
-        if ($path instanceof PathExp || $path instanceof self) {
-            $rule = new LazyRuleStringify('declined_if', [$path, $value]);
-        } else {
-            $rule = sprintf('declined_if:%s,%s', $path, $value);
-        }
-        $this->rules[] = $rule;
-        return $this;
+        return $this->buildAndAddRule('declined_if', [$path, $value]);
     }
 
     /**
@@ -176,13 +164,7 @@ abstract class AbstractNode
      */
     public function missingIf(string|PathExp|AbstractNode $path, string $value): self
     {
-        if ($path instanceof PathExp || $path instanceof self) {
-            $rule = new LazyRuleStringify('missing_if', [$path, $value]);
-        } else {
-            $rule = sprintf('missing_if:%s,%s', $path, $value);
-        }
-        $this->rules[] = $rule;
-        return $this;
+        return $this->buildAndAddRule('missing_if', [$path, $value]);
     }
 
     /**
@@ -192,13 +174,7 @@ abstract class AbstractNode
      */
     public function acceptedIf(string|PathExp|AbstractNode $path, string $value): self
     {
-        if ($path instanceof PathExp || $path instanceof self) {
-            $rule = new LazyRuleStringify('accepted_if', [$path, $value]);
-        } else {
-            $rule = sprintf('accepted_if:%s,%s', $path, $value);
-        }
-        $this->rules[] = $rule;
-        return $this;
+        return $this->buildAndAddRule('accepted_if', [$path, $value]);
     }
 
     /**
@@ -208,13 +184,7 @@ abstract class AbstractNode
      */
     public function excludeIf(string|PathExp|AbstractNode $path, string $value): self
     {
-        if ($path instanceof PathExp || $path instanceof self) {
-            $rule = new LazyRuleStringify('exclude_if', [$path, $value]);
-        } else {
-            $rule = sprintf('exclude_if:%s,%s', $path, $value);
-        }
-        $this->rules[] = $rule;
-        return $this;
+        return $this->buildAndAddRule('exclude_if', [$path, $value]);
     }
 
     /**
@@ -224,13 +194,7 @@ abstract class AbstractNode
      */
     public function excludeUnless(string|PathExp|AbstractNode $path, string $value): self
     {
-        if ($path instanceof PathExp || $path instanceof self) {
-            $rule = new LazyRuleStringify('exclude_unless', [$path, $value]);
-        } else {
-            $rule = sprintf('exclude_unless:%s,%s', $path, $value);
-        }
-        $this->rules[] = $rule;
-        return $this;
+        return $this->buildAndAddRule('exclude_unless', [$path, $value]);
     }
 
     /**
@@ -239,13 +203,7 @@ abstract class AbstractNode
      */
     public function excludeWith(string|PathExp|AbstractNode $path): self
     {
-        if ($path instanceof PathExp || $path instanceof self) {
-            $rule = new LazyRuleStringify('exclude_with', [$path]);
-        } else {
-            $rule = sprintf('exclude_with:%s', $path);
-        }
-        $this->rules[] = $rule;
-        return $this;
+        return $this->buildAndAddRule('exclude_with', [$path]);
     }
 
 
@@ -255,13 +213,7 @@ abstract class AbstractNode
      */
     public function excludeWithout(string|PathExp|AbstractNode $path): self
     {
-        if ($path instanceof PathExp || $path instanceof self) {
-            $rule = new LazyRuleStringify('exclude_without', [$path]);
-        } else {
-            $rule = sprintf('exclude_without:%s', $path);
-        }
-        $this->rules[] = $rule;
-        return $this;
+        return $this->buildAndAddRule('exclude_without', [$path]);
     }
 
     /**
@@ -271,13 +223,7 @@ abstract class AbstractNode
      */
     public function prohibitedIf(string|PathExp|AbstractNode $path, string $value): self
     {
-        if ($path instanceof PathExp || $path instanceof self) {
-            $rule = new LazyRuleStringify('prohibited_if', [$path, $value]);
-        } else {
-            $rule = sprintf('prohibited_if:%s,%s', $path, $value);
-        }
-        $this->rules[] = $rule;
-        return $this;
+        return $this->buildAndAddRule('prohibited_if', [$path, $value]);
     }
 
     /**
@@ -287,13 +233,7 @@ abstract class AbstractNode
      */
     public function prohibitedUnless(string|PathExp|AbstractNode $path, string $value): self
     {
-        if ($path instanceof PathExp || $path instanceof self) {
-            $rule = new LazyRuleStringify('prohibited_unless', [$path, $value]);
-        } else {
-            $rule = sprintf('prohibited_unless:%s,%s', $path, $value);
-        }
-        $this->rules[] = $rule;
-        return $this;
+        return $this->buildAndAddRule('prohibited_unless', [$path, $value]);
     }
 
     /**
@@ -302,13 +242,7 @@ abstract class AbstractNode
      */
     public function prohibits(string|PathExp|AbstractNode $path): self
     {
-        if ($path instanceof PathExp || $path instanceof self) {
-            $rule = new LazyRuleStringify('prohibits', [$path]);
-        } else {
-            $rule = sprintf('prohibits:%s', $path);
-        }
-        $this->rules[] = $rule;
-        return $this;
+        return $this->buildAndAddRule('prohibits', [$path]);
     }
 
     /**
@@ -317,13 +251,7 @@ abstract class AbstractNode
      */
     public function same(string|PathExp|AbstractNode $path): self
     {
-        if ($path instanceof PathExp || $path instanceof self) {
-            $rule = new LazyRuleStringify('same', [$path]);
-        } else {
-            $rule = sprintf('same:%s', $path);
-        }
-        $this->rules[] = $rule;
-        return $this;
+        return $this->buildAndAddRule('same', [$path]);
     }
 
 
@@ -362,24 +290,7 @@ abstract class AbstractNode
             return $this;
         }
 
-        $rule = $methodName;
-
-        /**
-         * Lets look for an instance of PathExp. If it exists, we'll wrap the rule in LazyRuleStringify.
-         */
-        foreach ($arguments as $arg) {
-            if ($arg instanceof PathExp || $arg instanceof self) {
-                $rule = new LazyRuleStringify($ruleName, $arguments);
-                break;
-            }
-        }
-
-        if (!$rule instanceof LazyRuleStringify) {
-            $rule = sprintf('%s:%s', $ruleName, implode(',', $arguments));
-        }
-
-        $this->rules[] = $rule;
-        return $this;
+        return $this->buildAndAddRule($ruleName, $arguments);
     }
 
     /**
@@ -415,4 +326,46 @@ abstract class AbstractNode
         $var = $this;
         return $this;
     }
+
+    /**
+     * Creates a rule string if all arguments are string. If an argument in a PathExp or a node, wrap in a rule object
+     * that lazily resolves the path strings on build.
+     *
+     * @param string $ruleName
+     * @param array<int,string|AbstractNode|PathExp> $ruleArguments
+     * @return LazyRuleStringify|string
+     */
+    protected static function buildRule(string $ruleName, array $ruleArguments): LazyRuleStringify|string
+    {
+        if (count($ruleArguments) === 0) {
+            return $ruleName;
+        }
+        foreach ($ruleArguments as $argument) {
+            if ($argument instanceof PathExp || $argument instanceof self) {
+                /**
+                 * We'll wrap the rule in LazyRuleStringify if we find a PathExp or a node
+                 */
+                return new LazyRuleStringify($ruleName, $ruleArguments);
+            }
+        }
+
+        // We are here because we didn't find any argument that should be lazily resolved.
+        // Let's treat them all as strings now.
+        // @phpstan-ignore-next-line
+        return sprintf('%s:%s', $ruleName, implode(',', $ruleArguments));
+    }
+
+    /**
+     * Build a rule via static::buildRule and add it to the rules list.
+     *
+     * @param string $ruleName
+     * @param array<int,string|AbstractNode|PathExp> $arguments
+     * @return $this
+     */
+    protected function buildAndAddRule(string $ruleName, array $arguments): self
+    {
+        $this->rules[] = static::buildRule($ruleName, $arguments);
+        return $this;
+    }
+
 }
